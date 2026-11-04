@@ -1,0 +1,29 @@
+schema: spec-driven
+
+context: |
+  All designs and tasks must follow cross-platform standards:
+  - Use forward slashes (/) or platform-agnostic path APIs; never hardcode Windows backslashes (\).
+  - Enforce dual-tier privacy guardrails: never include API keys, secrets, or raw host PII in specs or proposals.
+  - Commands must supply non-interactive flags (e.g. npm --yes, git --no-pager).
+  - Strict verification gate: never claim a task complete without running linter, build, and tests.
+
+rules:
+  proposal:
+    - Clearly separate in-scope deliverables from out-of-scope boundaries.
+    - Reference any relevant ATO subtasks or KB backlog items.
+  specs:
+    - Write delta specifications under specs/<capability>/spec.md describing behavioral changes.
+  design:
+    - Include vertical mermaid architecture diagrams (flowchart TD or graph TD).
+    - Detail data flow, interface contracts, and security constraints.
+  tasks:
+    - Break implementation into discrete, verify-able tasks suitable for Definition of Done (DoD).
+
+operations:
+  apply:
+    guidance:
+      - Run linting and unit tests before declaring any task item complete.
+      - Never modify git commit history (no amend/rebase without confirmation).
+  archive:
+    guidance:
+      - Verify that living specs under openspec/specs/ accurately reflect the implemented change.
