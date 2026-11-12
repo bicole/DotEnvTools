@@ -31,7 +31,12 @@ if command -v pwsh >/dev/null 2>&1; then
     [ "$YES" -eq 1 ] && PWSH_ARGS+=("-Yes")
     pwsh "${PWSH_ARGS[@]}"
 else
-    DEST="$HOME/.local/share/powershell/Modules/DotEnvTools/0.1.0"
+    VERSION="$(grep -E "ModuleVersion[[:space:]]*=" "$REPO_ROOT/Source/DotEnvTools.psd1" | sed -E "s/.*=[[:space:]]*['\"]([^'\"]+)['\"].*/\1/")"
+    [ -z "$VERSION" ] && VERSION="0.1.0"
+    DEST="$HOME/.local/share/powershell/Modules/DotEnvTools/$VERSION"
+    if [ "$DIFF" -eq 1 ] && [ -d "$DEST" ]; then
+        diff -u -r "$REPO_ROOT/Source" "$DEST" || true
+    fi
     if [ "$CHECK" -eq 1 ]; then
         echo "[CHECK] DotEnvTools target: $DEST"
         exit 0

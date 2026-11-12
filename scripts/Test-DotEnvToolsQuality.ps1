@@ -24,7 +24,7 @@ Windows PowerShell 5.1 compatible.
 [OutputType([pscustomobject])]
 param(
     [Parameter(Mandatory = $false)]
-    [string]$ModuleRoot = '.',
+    [string]$ModuleRoot = (Split-Path -Parent $PSScriptRoot),
     [Parameter(Mandatory = $false)]
     [switch]$RunAnalyzer,
     [Parameter(Mandatory = $false)]
@@ -38,7 +38,7 @@ begin {
 process {
     $root = (Resolve-Path -Path $ModuleRoot).Path
     Write-Verbose "Using root path: $root"
-    $manifestPath = Join-Path $root 'Source\DotEnvTools.psd1'
+    $manifestPath = Join-Path $root 'Source/DotEnvTools.psd1'
     if (-not (Test-Path $manifestPath)) { [void]$errors.Add("Manifest not found: $manifestPath") }
     else {
         try {
@@ -94,8 +94,8 @@ end {
 # SIG # Begin signature block
 # MIIHXQYJKoZIhvcNAQcCoIIHTjCCB0oCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCC1xx9ogHo1dYoJ
-# ORvJ58D5NlKU9NtjjtejkFG7CdQZKKCCBDowggQ2MIICnqADAgECAhBDcn1KArYx
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCB3W52N/EjIYWG7
+# z595tGyH/NBPVU39kqUSrkCkK0/UA6CCBDowggQ2MIICnqADAgECAhBDcn1KArYx
 # pE0iSvuWuGW3MA0GCSqGSIb3DQEBCwUAMDMxMTAvBgNVBAMMKEJyeWFuIENvbGUg
 # TG9jYWwgUG93ZXJTaGVsbCBDb2RlIFNpZ25pbmcwHhcNMjYwOTE2MTUxNzUxWhcN
 # MjkwOTE2MTUyNzUxWjAzMTEwLwYDVQQDDChCcnlhbiBDb2xlIExvY2FsIFBvd2Vy
@@ -122,14 +122,14 @@ end {
 # b3dlclNoZWxsIENvZGUgU2lnbmluZwIQQ3J9SgK2MaRNIkr7lrhltzANBglghkgB
 # ZQMEAgEFAKCBhDAYBgorBgEEAYI3AgEMMQowCKACgAChAoAAMBkGCSqGSIb3DQEJ
 # AzEMBgorBgEEAYI3AgEEMBwGCisGAQQBgjcCAQsxDjAMBgorBgEEAYI3AgEVMC8G
-# CSqGSIb3DQEJBDEiBCD3TOsRP1BIR3hY8wCpW2PCWoGdK4DKS62voxMnxjDuFTAN
-# BgkqhkiG9w0BAQEFAASCAYBdNtVCvgC2HFRhyENLa1UifPSmz54L7R1RiHpKYqAn
-# glX9w7IQsnUJytPSSXDg9Qq8Lseuqo811m2+F03/ngdWmLeYIWUfrN4EPSxsoB4f
-# Rk7o4vsNhIwCzjAT6BiDsNHBaLgTmQqYhBhk1akKyhSsDuwL/CO+TkhJfjYYHhVP
-# 6029wH47J3guDfsW8JjfL0pOrHz06Xx6D0eU95PY0jfAxWBVraFmGwLmOuI6wZ1y
-# a76Qclr5DdqJnCbnlOdAKQLUB0VF7qf4bVZ46F+wuI8fTHJIt5JR8xiHD9Z8wy7N
-# zktZm31Ilos6/9q808xrrPenNMNmfR79QUimhhoLfVSGo4iugZveFuKlTqZHXLiU
-# 10AzlqciSu0QK6oAPnDT6vWA7qlcQ/k/1g16Jvi1zFlhoOV2CBaY+MRyHnk2gSyG
-# k/mXqkDWSKoiDg4YIePLcrDOxMvI1RvTbZW37fN7EtR3kg6WsvAGCT85uV12N8XO
-# FxjQ+t7dG7f+Vqey2vT0zNM=
+# CSqGSIb3DQEJBDEiBCAJMzujmtQO79OnOct/4Q1pnTHGhgNiHEeibMsONWdtcjAN
+# BgkqhkiG9w0BAQEFAASCAYAMQCFdm48rgykD4YNSPOCvClZrXVsw0FNtqpvzEgvj
+# UjYfO1ZMr0NmPjyYyk9pv21GgLPRgd91ABOhyPgnymSxbjOlejoh5Dqfz7R2zts8
+# m51AALxGhYz3tXU7RHC0UKIF1Hre49IOt46WBJJ+Zuv7GOLPc0AUPPU8kUlRTg7q
+# eZ+uRGqrysFkies7HCIA4JYNuSmyF/t2Dscyxt7WBynyiranPzmKFH3Ax6qZh17x
+# Rxv8umZFGFTkMiV8SVt8tErnpCpdS3wvEpndtW+rAp9J8BdhSuah2UU1esp75e5Q
+# hDTTzYrsdYJnb0uJr7e0BsZ2vrbZ6OnBfi8mywQK7/OstK9V4weoKP0j/o+C2VLj
+# DkliQnD75SMvV2lpWpIVvbvhwL7nqg7iZ9jD5XNW2/bGdr9Eaa0Mazx9WEyxUkWe
+# nkRK+Rm5u259jXIN/Y5NEoDz7kxzOZyspLNHMIjteK9QaB13RkfQ1r0zzRwWuc5l
+# mKmE52S8ETYv8JYDnGRwNDA=
 # SIG # End signature block

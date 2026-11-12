@@ -21,12 +21,46 @@ $Manifest = Import-PowerShellDataFile -Path (Join-Path $SrcDir 'DotEnvTools.psd1
 $Version = [string]$Manifest.ModuleVersion
 
 $UserModulesRoot = if ($IsWindows -or $env:OS -eq 'Windows_NT') {
-    Join-Path $HOME 'Documents/PowerShell/Modules'
+    $docs = [Environment]::GetFolderPath('MyDocuments')
+    if (-not $docs) { $docs = Join-Path $HOME 'Documents' }
+    Join-Path $docs 'PowerShell/Modules'
 } else {
     Join-Path $HOME '.local/share/powershell/Modules'
 }
 
 $DestDir = Join-Path $UserModulesRoot "DotEnvTools/$Version"
+
+if ($Diff) {
+    if (-not (Test-Path $DestDir)) {
+        Write-Host ("[DIFF] Destination directory does not exist: {0} (all files will be newly installed)" -f $DestDir) -ForegroundColor Yellow
+        Get-ChildItem -Path $SrcDir -Recurse -File | ForEach-Object {
+            $rel = $_.FullName.Substring($SrcDir.Length).TrimStart('\', '/').Replace('\', '/')
+            Write-Host ("  + {0}" -f $rel) -ForegroundColor Green
+        }
+    } else {
+        Write-Host ("[DIFF] Comparing {0} with {1}:" -f $SrcDir, $DestDir) -ForegroundColor Cyan
+        $diffCount = 0
+        $srcFiles = Get-ChildItem -Path $SrcDir -Recurse -File
+        foreach ($sf in $srcFiles) {
+            $rel = $sf.FullName.Substring($SrcDir.Length).TrimStart('\', '/').Replace('\', '/')
+            $dfPath = Join-Path $DestDir $rel
+            if (-not (Test-Path $dfPath)) {
+                Write-Host ("  + {0} (new in source)" -f $rel) -ForegroundColor Green
+                $diffCount++
+            } else {
+                $srcHash = (Get-FileHash -Path $sf.FullName -Algorithm SHA256).Hash
+                $dstHash = (Get-FileHash -Path $dfPath -Algorithm SHA256).Hash
+                if ($srcHash -ne $dstHash) {
+                    Write-Host ("  ~ {0} (content modified)" -f $rel) -ForegroundColor Yellow
+                    $diffCount++
+                }
+            }
+        }
+        if ($diffCount -eq 0) {
+            Write-Host "  No differences found; destination is up to date." -ForegroundColor Green
+        }
+    }
+}
 
 if ($Check) {
     $exists = Test-Path (Join-Path $DestDir 'DotEnvTools.psd1')
