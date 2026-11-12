@@ -466,7 +466,7 @@ SHARED_VALUE=development-local
     }
 
     It 'Finds dotenv files by searching parent directories' {
-        $child = Join-Path $script:LayerRoot 'nested\child'
+        $child = Join-Path $script:LayerRoot 'nested/child'
         New-Item -Path $child -ItemType Directory -Force | Out-Null
 
         $files = @(Find-DotEnvFile -Path $child -IncludeVariants -EnvironmentName development)
@@ -540,7 +540,7 @@ Describe 'DotEnvTools Dev Container Feature metadata' {
     It 'Uses the current module version as the default Feature install version' {
         $manifest = Import-PowerShellDataFile -Path (Join-Path $PSScriptRoot '..\Source\DotEnvTools.psd1')
         $featurePath = Join-Path $PSScriptRoot '..\src\dotenvtools\devcontainer-feature.json'
-        $installPath = Join-Path $PSScriptRoot '..\src\dotenvtools\install.sh'
+        $installPath = Join-Path $PSScriptRoot '../src/dotenvtools/install.sh'
 
         $feature = Get-Content -Path $featurePath -Raw | ConvertFrom-Json
         $installScript = Get-Content -Path $installPath -Raw
