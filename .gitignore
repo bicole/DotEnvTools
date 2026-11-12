@@ -4,3 +4,7 @@
 !.env.*.example
 dist
 *.zip
+__pycache__/
+*.pyc
+*.bak
+*.bak.*
