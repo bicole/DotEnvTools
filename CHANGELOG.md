@@ -12,6 +12,20 @@ This project follows a pragmatic versioning approach:
 
 ---
 
+## [0.9.0](https://github.com/bicole/DotEnvTools/compare/v0.8.18...v0.9.0) (2026-11-17)
+
+
+### Features
+
+* add install scripts, agent docs, and ignore backup/pycache files ([b262441](https://github.com/bicole/DotEnvTools/commit/b2624419a2ca61f3b4c605757cad0dade1c194ac))
+* add layered dotenv loading and fix module export model ([647435b](https://github.com/bicole/DotEnvTools/commit/647435be1f1c2d5f0ed9adfad146bd9509785ddc))
+* **openspec:** integrate OpenSpec skills, workflows, and enterprise config ([096c696](https://github.com/bicole/DotEnvTools/commit/096c696afa19b36b9a362e1e922b6fdde5ff75ea))
+
+
+### Bug Fixes
+
+* enhance install scripts, resolve quality test repo root, and normalize line endings ([2f56a59](https://github.com/bicole/DotEnvTools/commit/2f56a59b46b4c0f8e03cc67d9ecbe488739ab3a0))
+
 ## [Unreleased]
 
 ### Added
